@@ -1,56 +1,35 @@
+<!-- quicklink-app/index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuickLink - Ameer’s Board</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuickLink PDF Generator</title>
   <link rel="stylesheet" href="style/main.css">
-  <!-- AdSense placeholder -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
-  <header class="heading">
-    <h1>QuickLink</h1>
-    <p>Thank you for choosing Ameer’s Board</p>
+  <header>
+    <h1>QuickLink PDF Generator</h1>
+    <p>Create a clickable PDF from any image and link</p>
   </header>
-
-  <!-- Mobile & Top Ad Unit -->
-  <div class="adsense-top">
-    <!-- Replace this comment with actual AdSense code -->
-    <p>[Ad - Top]</p>
-  </div>
 
   <main class="container">
     <section class="form-section">
-      <label for="original-link">Paste your link here:</label>
-      <input type="url" id="original-link" placeholder="https://example.com">
+      <label for="link-input">Enter URL:</label>
+      <input type="url" id="link-input" placeholder="https://example.com" required>
 
-      <label for="custom-alias">Custom short name (optional, max 30 chars):</label>
-      <input type="text" id="custom-alias" maxlength="30" placeholder="e.g. my-custom-link">
-
-      <label for="image-upload">Upload image (optional):</label>
+      <label for="image-upload">Upload image (.jpg or .png):</label>
       <input type="file" id="image-upload" accept="image/png, image/jpeg">
 
-      <button id="shorten-btn">Shorten Now</button>
+      <button id="generate-btn">Generate PDF</button>
     </section>
 
-    <section class="output-section">
-      <label for="short-link">Your Shortened Link:</label>
-      <input type="text" id="short-link" readonly>
-      <button id="copy-btn">Copy</button>
-
-      <div id="pdf-download" class="hidden">
-        <p>Your clickable PDF is ready:</p>
-        <a href="#" id="download-link" download>Download PDF</a>
-      </div>
+    <section id="download-section" class="hidden">
+      <p>Your PDF is ready:</p>
+      <a href="#" id="download-link" download>Download PDF</a>
     </section>
   </main>
-
-  <!-- Desktop Right Ad Unit -->
-  <aside class="adsense-right">
-    <!-- Replace this comment with actual AdSense code -->
-    <p>[Ad - Right Side]</p>
-  </aside>
 
   <script src="js/app.js"></script>
 </body>

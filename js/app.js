@@ -1,58 +1,46 @@
-// js/app.js
+// quicklink-app/js/app.js
 
-// DOM Elements
-const shortenBtn = document.getElementById("shortenBtn");
-const longUrlInput = document.getElementById("longUrl");
-const customNameInput = document.getElementById("customName");
-const imageInput = document.getElementById("imageUpload");
-const outputSection = document.getElementById("outputSection");
-const shortLink = document.getElementById("shortLink");
-const copyBtn = document.getElementById("copyBtn");
-const downloadSection = document.getElementById("downloadSection");
+const generateBtn = document.getElementById("generate-btn");
+const linkInput = document.getElementById("link-input");
+const imageInput = document.getElementById("image-upload");
+const downloadSection = document.getElementById("download-section");
+const downloadLink = document.getElementById("download-link");
 
-// Max image size: 2MB
-const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
-
-// Handle button click
-shortenBtn.addEventListener("click", () => {
-  const longUrl = longUrlInput.value.trim();
-  const customName = customNameInput.value.trim();
+generateBtn.addEventListener("click", async () => {
+  const link = linkInput.value.trim();
   const imageFile = imageInput.files[0];
 
-  if (!longUrl || !longUrl.startsWith("http")) {
-    alert("Please enter a valid link starting with http or https.");
+  if (!link.startsWith("http")) {
+    alert("Please enter a valid URL starting with http or https.");
     return;
   }
 
-  if (customName.length > 30) {
-    alert("Custom name must be 30 characters or less.");
+  if (!imageFile) {
+    alert("Please upload an image.");
     return;
   }
 
-  if (imageFile && imageFile.size > MAX_IMAGE_SIZE) {
-    alert("Image file is too large! Please upload an image less than 2MB.");
-    return;
+  const formData = new FormData();
+  formData.append("link", link);
+  formData.append("image", imageFile);
+
+  try {
+    const res = await fetch("https://quicklinkbackend-ukah.onrender.com/generate_pdf", {
+      method: "POST",
+      body: formData,
+    });
+
+    const result = await res.json();
+
+    if (res.ok && result.pdfUrl) {
+      const fullPdfUrl = `https://quicklinkbackend-ukah.onrender.com${result.pdfUrl}`;
+      downloadLink.href = fullPdfUrl;
+      downloadSection.classList.remove("hidden");
+    } else {
+      alert(result.error || "PDF generation failed.");
+    }
+  } catch (err) {
+    alert("Server error. Please try again.");
+    console.error(err);
   }
-
-  // Simulate shortened link (this will later be replaced by Flask API)
-  let slug = customName || Math.random().toString(36).substring(2, 8);
-  let shortenedUrl = `${window.location.origin}/r/${slug}`;
-
-  shortLink.value = shortenedUrl;
-  outputSection.classList.remove("hidden");
-
-  // Show download section if image was uploaded
-  if (imageFile) {
-    downloadSection.classList.remove("hidden");
-  } else {
-    downloadSection.classList.add("hidden");
-  }
-});
-
-// Copy to clipboard
-copyBtn.addEventListener("click", () => {
-  shortLink.select();
-  document.execCommand("copy");
-  copyBtn.innerText = "Copied!";
-  setTimeout(() => (copyBtn.innerText = "Copy"), 1500);
 });
