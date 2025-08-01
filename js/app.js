@@ -35,6 +35,7 @@ generateBtn.addEventListener("click", async () => {
     if (res.ok && result.pdfUrl) {
       const fullPdfUrl = `https://quicklinkbackend-sw9u.onrender.com${result.pdfUrl}`;
       downloadLink.href = fullPdfUrl;
+      downloadLink.download = "QuickLink_PDF.pdf";
       downloadSection.classList.remove("hidden");
     } else {
       alert(result.error || "PDF generation failed.");
