@@ -25,7 +25,7 @@ generateBtn.addEventListener("click", async () => {
   formData.append("image", imageFile);
 
   try {
-    const res = await fetch("https://quicklinkbackend-ukah.onrender.com/generate_pdf", {
+    const res = await fetch("https://quicklinkbackend-sw9u.onrender.com/generate_pdf", {
       method: "POST",
       body: formData,
     });
@@ -33,7 +33,7 @@ generateBtn.addEventListener("click", async () => {
     const result = await res.json();
 
     if (res.ok && result.pdfUrl) {
-      const fullPdfUrl = `https://quicklinkbackend-ukah.onrender.com${result.pdfUrl}`;
+      const fullPdfUrl = `https://quicklinkbackend-sw9u.onrender.com${result.pdfUrl}`;
       downloadLink.href = fullPdfUrl;
       downloadSection.classList.remove("hidden");
     } else {
